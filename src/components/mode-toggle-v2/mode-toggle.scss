@@ -1,0 +1,53 @@
+$initial-other-modes-position: -50%;
+
+.mode-toggle-container {
+    border-radius: var(--radius);
+    background-color: hsl(var(--secondary) / 50%);
+    display: inline-flex;
+    padding: 0.5rem;
+    gap: 0;
+
+    transition: width 200ms ease-out;
+    transition: gap 200ms ease-out;
+
+    .other-modes {
+        display: flex;
+        position: relative;
+        left: $initial-other-modes-position;
+        opacity: 0;
+        scale: 0;
+        animation: other-modes-in 200ms ease-out 50ms forwards;
+
+        &.hiding {
+            animation: other-modes-out 200ms ease-out 50ms forwards;
+        }
+    }
+}
+
+@keyframes other-modes-out {
+    from {
+        left: 0;
+        opacity: 1;
+        scale: 1;
+    }
+
+    to {
+        left: $initial-other-modes-position;
+        opacity: 0;
+        scale: 0;
+    }
+}
+
+@keyframes other-modes-in {
+    from {
+        left: $initial-other-modes-position;
+        opacity: 0;
+        scale: 0;
+    }
+
+    to {
+        left: 0;
+        opacity: 1;
+        scale: 1;
+    }
+}
