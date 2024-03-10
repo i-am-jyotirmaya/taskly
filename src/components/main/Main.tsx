@@ -1,8 +1,8 @@
-import { DashboardIcon, ListBulletIcon } from "@radix-ui/react-icons";
-import { DateNavbar } from "../date-nav-bar/DateNavbar";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useState } from "react";
+import { DateNavbar } from "@/components/main/date-nav-bar/DateNavbar";
+
 import clsx from "clsx";
+import { TaskListModeSelector } from "@/components/main/task-list-mode-selector/TaskListModeSelector";
+import { useAppSelector } from "@/redux/hooks";
 
 const generateDummyListOfTasks = (numberOfTasks = 5, prefix = "", name = "Task") => {
   const list = [];
@@ -34,9 +34,6 @@ type TaskMetaData = {
 };
 
 export const Main = () => {
-  type ListMode = "list" | "grid";
-  const [listMode, setListMode] = useState<ListMode>("list");
-
   const getDummyTasks = () => {
     const tasks = generateDummyListOfTasks(20, "Dummy", "Task");
     return tasks.map((task) => (
@@ -46,9 +43,7 @@ export const Main = () => {
     ));
   };
 
-  const handleListModeChange = (value: ListMode) => {
-    setListMode(value);
-  };
+  const listMode = useAppSelector((state) => state.taskListChangeSelector.listMode);
 
   const taskListClassNames = clsx({
     "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2": listMode === "grid",
@@ -59,19 +54,7 @@ export const Main = () => {
       <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
         <DateNavbar />
         <main className="relative py-6 flex flex-col gap-4">
-          <ToggleGroup
-            defaultValue={listMode}
-            onValueChange={handleListModeChange}
-            className="self-end hidden lg:block"
-            type="single"
-          >
-            <ToggleGroupItem value="list" aria-label="Toggle bold">
-              <ListBulletIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem value="grid" aria-label="Toggle italic">
-              <DashboardIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-          </ToggleGroup>
+          <TaskListModeSelector />
           <div className={taskListClassNames}>
             {/* <div className="rounded-2xl border p-4 transition-colors bg-secondary/40 hover:bg-secondary hover:cursor-pointer">
               Task1
