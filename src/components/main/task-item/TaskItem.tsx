@@ -99,7 +99,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
         <AccordionItem className="border-none" value="detail">
           <AccordionTrigger className="hover:no-underline pb-0">Details</AccordionTrigger>
           <AccordionContent className="pb-0 pt-2">
-            <span className="line-clamp-2 active:line-clamp-none">{data.description}</span>
+            <span className="line-clamp-2 active:line-clamp-none select-none">{data.description}</span>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

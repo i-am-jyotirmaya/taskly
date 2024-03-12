@@ -17,10 +17,10 @@ export const TaskListModeSelector = () => {
       className="self-end hidden lg:flex"
       type="single"
     >
-      <ToggleGroupItem value="list" aria-label="Toggle bold">
+      <ToggleGroupItem disabled={listMode === "list"} value="list" aria-label="Toggle list">
         <ListBulletIcon className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="grid" aria-label="Toggle italic">
+      <ToggleGroupItem disabled={listMode === "grid"} value="grid" aria-label="Toggle grid">
         <DashboardIcon className="h-4 w-4" />
       </ToggleGroupItem>
     </ToggleGroup>

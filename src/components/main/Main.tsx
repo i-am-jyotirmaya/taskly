@@ -47,7 +47,7 @@ export const Main = () => {
   const taskListClassNames = clsx({
     "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2": listMode === "grid",
     // "flex flex-wrap gap-2": listMode === "grid",
-    "flex flex-col gap-2": listMode === "list",
+    "flex flex-col gap-2": listMode !== "grid",
   });
   return (
     <main className="flex-1">
