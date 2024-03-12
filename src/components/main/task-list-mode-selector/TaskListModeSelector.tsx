@@ -6,6 +6,7 @@ import { changeListMode } from "./taskListModeSelectorSlice";
 export const TaskListModeSelector = () => {
   const dispatch = useAppDispatch();
   const listMode = useAppSelector((state) => state.taskListChangeSelector.listMode);
+  console.log(listMode);
   const handleListModeChange = (value: "list" | "grid") => {
     dispatch(changeListMode(value));
   };
