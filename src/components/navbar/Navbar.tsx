@@ -26,7 +26,7 @@ export const Navbar = () => {
                 Create Task
               </Button>
             </DialogTrigger>
-            <DialogContent overlayClassName="backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <DialogContent overlayClassName="backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
               <DialogHeader>
                 <DialogTitle>Create a task</DialogTitle>
                 {/* <DialogDescription>
