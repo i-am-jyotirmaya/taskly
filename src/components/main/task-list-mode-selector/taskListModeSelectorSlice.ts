@@ -16,6 +16,7 @@ export const taskListModeSelectorSlice = createSlice({
   reducers: {
     changeListMode: (state, action: PayloadAction<"list" | "grid">) => {
       state.listMode = action.payload;
+      UserPreferences.taskListMode = action.payload;
     },
   },
 });
