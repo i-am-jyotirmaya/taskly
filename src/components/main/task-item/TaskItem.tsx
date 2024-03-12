@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/date-utils";
 import clsx from "clsx";
-import { BadgeCheckIcon, CheckCheckIcon, Trash2Icon } from "lucide-react";
+import { CheckCheckIcon, Trash2Icon } from "lucide-react";
 
 // This is a type that can be used to define the properties of a task. Not finalised yet
 type TaskMetaData = {
