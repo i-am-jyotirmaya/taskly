@@ -1,3 +1,4 @@
+import { UserPreferences } from "@/utils/user-preferences-utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -6,7 +7,7 @@ export type TaskListModeSelectorState = {
 };
 
 const initialState: TaskListModeSelectorState = {
-  listMode: "list",
+  listMode: UserPreferences.taskListMode ?? "list",
 };
 
 export const taskListModeSelectorSlice = createSlice({
