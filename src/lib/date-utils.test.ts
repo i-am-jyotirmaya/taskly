@@ -1,5 +1,5 @@
 import { describe, it, expect, afterAll, beforeAll, vi } from "vitest";
-import { formatDate } from "@/utils/date-utils";
+import { formatDate } from "@/lib/date-utils";
 
 describe("formatDate", () => {
   // Mock the current date

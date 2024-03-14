@@ -1,4 +1,4 @@
-import { UserPreferences } from "@/utils/user-preferences-utils";
+import { UserPreferences } from "@/lib/user-preferences-utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

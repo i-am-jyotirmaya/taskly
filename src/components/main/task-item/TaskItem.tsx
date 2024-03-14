@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/utils/date-utils";
+import { formatDate } from "@/lib/date-utils";
 import clsx from "clsx";
 import { CheckCheckIcon, Trash2Icon } from "lucide-react";
 
@@ -11,7 +11,7 @@ type TaskMetaData = {
   tags: string[]; // Array of tags. Can be used to search tasks
   priority: "HIGH" | "NORMAL" | "LOW"; // High, Medium, Low
   dueDate?: Date; // Date the task is due
-  reminder?: Date; // Date the task is due
+  reminderDate?: Date; // Date the task is due
   description?: string; // Description of the task
   notes?: string; // Notes about the task
   attachments?: string[]; // Array of attachments. Can be used to download attachments
@@ -31,35 +31,12 @@ type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
-  //   const getFormattedDate = (date: Date): string => {
-  //     const now = new Date();
-  //     if (
-  //       date.getFullYear() === now.getFullYear() &&
-  //       date.getMonth() === now.getMonth() &&
-  //       date.getDate() === now.getDate()
-  //     )
-  //       return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  //     else if (
-  //       date.getFullYear() === now.getFullYear() &&
-  //       date.getMonth() === now.getMonth() &&
-  //       date.getDate() === now.getDate() - 1
-  //     )
-  //       return `yesterday, ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-  //     else if (
-  //         date.getFullYear() === now.getFullYear() &&
-  //         date.getMonth() === now.getMonth() &&
-  //         date.getDate() === now.getDate() - 2
-  //     )
-  //         return `2 days ago, ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-  //     return date.toLocaleDateString([], { year: "numeric", month: "long", day: "numeric" });
-  //     // return date.toLocaleString();
-  //   };
   const getDateStatus = (createdDate: Date, updatedDate: Date) => {
-    const dateTypeText = createdDate === updatedDate ? "Created" : "Updated";
+    const dateTypeText = createdDate.getTime() === updatedDate.getTime() ? "Created" : "Updated";
     const date = createdDate === updatedDate ? createdDate : updatedDate;
     return (
       <span>
-        {dateTypeText} at {formatDate(date)}
+        {dateTypeText} {formatDate(date)}
       </span>
     );
   };
