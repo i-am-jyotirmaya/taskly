@@ -63,8 +63,12 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
         </Button>
       </div>
       <div className="flex gap-2">
-        {data.tags.map((tag) => {
-          return <Badge variant="outline">{tag}</Badge>;
+        {data.tags.map((tag, i) => {
+          return (
+            <Badge key={`${tag}-${i}`} variant="outline">
+              {tag}
+            </Badge>
+          );
         })}
       </div>
       {/* <div className="text-sm">

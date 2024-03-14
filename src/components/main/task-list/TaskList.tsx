@@ -1,8 +1,10 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TaskItem } from "@/components/main/task-item/TaskItem";
 import clsx from "clsx";
-import testTaskList from "@/static/testTasks.json";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useEffect, useMemo } from "react";
+import { fetchAllTasks } from "./taskListSlice";
+import { LoaderIcon } from "lucide-react";
 
 type TaskMetaData = {
   category?: string; // This will create the task under a category. Used to organise
@@ -47,12 +49,27 @@ const separateTasksBasedOnCategory = (taskList: TaskMetaData[]) => {
 };
 
 export const TaskList = () => {
-  const listMode = useAppSelector((state) => state.taskListChangeSelector.listMode);
+  const dispatch = useAppDispatch();
 
-  const tasksByCategory = separateTasksBasedOnCategory(convertTaskDates(testTaskList));
+  const listMode = useAppSelector((state) => state.taskListChangeSelector.listMode);
+  const { taskList, listLoading } = useAppSelector((state) => state.taskList);
+
+  useEffect(() => {
+    dispatch(fetchAllTasks());
+  }, [dispatch]);
+
+  const categories = useMemo(() => {
+    if (taskList.length > 0) {
+      const tasksByCategory = separateTasksBasedOnCategory(convertTaskDates(taskList));
+      return Object.keys(tasksByCategory);
+    }
+    return [];
+  }, [taskList]); // Recompute categories only when taskList changes
+
   const getTestTasks = () => {
+    const tasksByCategory = separateTasksBasedOnCategory(convertTaskDates(taskList));
     return Object.keys(tasksByCategory).map((category) => (
-      <AccordionItem value={category}>
+      <AccordionItem key={category} value={category}>
         <AccordionTrigger className="capitalize">{category}</AccordionTrigger>
         <AccordionContent>
           <div className={taskListClassNames}>
@@ -73,9 +90,18 @@ export const TaskList = () => {
 
   // defaultValue={Object.keys(tasksByCategory)} in return =>
   // Here we are passing all the categories as the default value. This will open all the categories at once.
+  // return <>{listLoading ? <div>Loading...</div> : <Accordion type="multiple">{getTestTasks()}</Accordion>}</>;
   return (
-    <Accordion type="multiple" defaultValue={Object.keys(tasksByCategory)}>
-      {getTestTasks()}
-    </Accordion>
+    <>
+      {listLoading ? (
+        <div>
+          <LoaderIcon className="h-10 w-10 animate-spin mx-auto" />
+        </div>
+      ) : (
+        <Accordion type="multiple" defaultValue={categories}>
+          {getTestTasks()}
+        </Accordion>
+      )}
+    </>
   );
 };
