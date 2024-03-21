@@ -13,10 +13,10 @@ export const createTaskFormSchema = z.object({
   type: z.string().optional(), //
 });
 type ExtraPropsForTask = {
-  id: string;
-  createdDate: string;
-  updatedDate: string;
-  completedDate?: string;
+  id?: string;
+  createdDate: String;
+  updatedDate: String;
+  completedDate?: String;
   completed: boolean;
   status: "todo" | "in-progress" | "done";
   user: string;
