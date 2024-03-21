@@ -4,6 +4,42 @@
  * Start json-server first using `json-server db.json` before calling any function in this file.
  */
 
+import { FirestoreDataConverter, addDoc, collection, getDocs } from "firebase/firestore";
+import { firestoreDb as db } from "@/firebase";
+
+export class TasksAPI {
+  private static TASKS_COLLECTION_NAME = "tasks";
+
+  // private taskConverter: FirestoreDataConverter<TaskMetaData> = {
+  //   toFirestore: (task: any) => {
+  //     return task;
+  //   },
+  //   fromFirestore: (snapshot: any, options: any) => {
+  //     const data = snapshot.data(options);
+  //     return {
+  //       ...data,
+  //       createdDate: new Date(data.createdDate),
+  //       updatedDate: new Date(data.updatedDate),
+  //       dueDate: new Date(data.dueDate!),
+  //       reminder: data.reminder ? new Date(data.reminder) : null,
+  //       completedDate: data.completedDate ? new Date(data.completedDate) : null,
+  //     };
+  //   }
+  // }
+
+  private static taskCollection = collection(db, this.TASKS_COLLECTION_NAME);
+
+  static async getTasks() {
+    const querySnapshot = await getDocs(this.taskCollection);
+    return querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskMetaData[];
+  }
+
+  static async createTask(task: any) {
+    const docRef = await addDoc(this.taskCollection, task);
+    console.log("Document written with ID: ", docRef.id);
+  }
+}
+
 type TaskMetaData = {
   category?: string; // This will create the task under a category. Used to organise
   tags: string[]; // Array of tags. Can be used to search tasks
@@ -23,44 +59,3 @@ type TaskMetaData = {
   type?: string; // Type of the task. Can be used to filter tasks
   user: string; // User who created the task
 };
-
-const JSON_SERVER_BASE_URL = "localhost:5225";
-
-// Return all Tasks from json-server
-export async function getAllTasks() {
-  const response = await fetch(`http://${JSON_SERVER_BASE_URL}/tasks`);
-  const json = await response.json();
-  return json as TaskMetaData[];
-}
-
-// Create a new Task in json-server
-export async function createTask(task: TaskMetaData) {
-  const response = await fetch(`http://${JSON_SERVER_BASE_URL}/tasks`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
-  return await response.json();
-}
-
-// Update a Task in json-server
-export async function updateTask(task: TaskMetaData) {
-  const response = await fetch(`http://${JSON_SERVER_BASE_URL}/tasks/${task.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
-  return await response.json();
-}
-
-// Delete a Task in json-server
-export async function deleteTask(taskId: string) {
-  const response = await fetch(`http://${JSON_SERVER_BASE_URL}/tasks/${taskId}`, {
-    method: "DELETE",
-  });
-  return await response.json();
-}

@@ -91,6 +91,7 @@ export const TaskList = () => {
   // defaultValue={Object.keys(tasksByCategory)} in return =>
   // Here we are passing all the categories as the default value. This will open all the categories at once.
   // return <>{listLoading ? <div>Loading...</div> : <Accordion type="multiple">{getTestTasks()}</Accordion>}</>;
+
   return (
     <>
       {listLoading ? (

@@ -1,4 +1,4 @@
-import { getAllTasks } from "@/api/tasks";
+import { TasksAPI } from "@/api/tasks";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type TaskMetaData = {
@@ -34,8 +34,10 @@ const initialState: TaskListState = {
 };
 
 export const fetchAllTasks = createAsyncThunk("taskList/fetchAllTasks", async () => {
-  const data = await getAllTasks();
-  return data;
+  // const getTasksPromise = Promise.all([TasksAPI_JSON_SERVER.getAllTasks(), TasksAPI.getTasks()]);
+  // const [data, dataFromFS] = await getTasksPromise;
+  const dataFromFS = await TasksAPI.getTasks();
+  return dataFromFS;
 });
 
 const taskListSlice = createSlice({
