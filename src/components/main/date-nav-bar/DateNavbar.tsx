@@ -11,6 +11,7 @@ export const DateNavbar = () => {
     return dummyListOfDates.map((date) => {
       return (
         <Button
+          key={date}
           variant={selectedDate === date ? "default" : "ghost"}
           onClick={() => {
             setSelectedDate(date);

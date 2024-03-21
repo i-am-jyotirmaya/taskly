@@ -76,7 +76,7 @@ const generateTagsArray = () => {
 const taskNames = generateDummyListOfTasks(40);
 console.log("Task names generated");
 const result = [];
-taskNames.map((name, i) => {
+taskNames.map((name) => {
   //   const createdDate = randomDate(new Date(2024, 3, 1), new Date(), 0, 23);
   const { completedDate, createdDate, dueDate, updatedDate, reminderDate } = generateTaskDates();
   const task = {
@@ -93,7 +93,7 @@ taskNames.map((name, i) => {
     user: "me",
     category: ["personal", "office", "hobby", "social"].at(Math.floor(Math.random() * 4)),
     dueDate,
-    reminder: reminderDate,
+    reminderDate,
     notes: [],
     attachments: [],
     completedDate,
