@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { createTaskFormSchema } from "@/schemas/task";
+import { TaskSchema, createTaskFormSchema } from "@/schemas/task-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -7,36 +7,15 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Link, LoaderIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LoaderIcon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { Value } from "@radix-ui/react-select";
-import { TasksAPI } from "@/api/tasks";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTask } from "./createTaskSlice";
-import { sum } from "firebase/firestore";
 // Assuming you have a Select component
 // import { DatePicker } from "@/components/ui/datepicker"; // Assuming you have a DatePicker component
 
@@ -54,26 +33,20 @@ export const CreateTaskForm = () => {
     },
   });
 
-  // createdDate: string;
-  // updatedDate: string;
-  // completedDate?: string;
-  // completed: boolean;
-  // status: "todo" | "in-progress" | "done";
-  // user: string;
-
   function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
+    console.log(form);
     console.log(values);
     const now = new Date().toISOString();
-    const newTask = {
+    const newTask: TaskSchema = {
       ...values,
       createdDate: now,
       updatedDate: now,
       completed: false,
       status: "todo",
       user: "me",
+      id: "",
     };
-    // TasksAPI.createTask();
-    dispatch(createTask(newTask as any));
+    dispatch(createTask(newTask));
   }
   return (
     <ScrollArea className="h-[70vh]">
@@ -99,9 +72,7 @@ export const CreateTaskForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Priority</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a verified email to display" />
@@ -204,15 +175,9 @@ export const CreateTaskForm = () => {
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}>
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
+                        className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                      >
+                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
@@ -222,16 +187,12 @@ export const CreateTaskForm = () => {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
+                      disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>
-                  Due Date to complete the task.
-                </FormDescription>
+                <FormDescription>Due Date to complete the task.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -270,10 +231,7 @@ export const CreateTaskForm = () => {
                   <Input
                     type="file"
                     onChange={(e) => {
-                      const file =
-                        e.target.files && e.target.files.length > 0
-                          ? e.target.files[0]
-                          : null; // Get the first selected file
+                      const file = e.target.files && e.target.files.length > 0 ? e.target.files[0] : null; // Get the first selected file
                       const attachment = file ? file.name : null; // Extract the file name
                       field.onChange(attachment);
                     }}
