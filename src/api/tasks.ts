@@ -6,6 +6,7 @@
 
 import { FirestoreDataConverter, addDoc, collection, getDocs } from "firebase/firestore";
 import { firestoreDb as db } from "@/firebase";
+import { TaskSchema } from "@/schemas/task";
 
 export class TasksAPI {
   private static TASKS_COLLECTION_NAME = "tasks";
@@ -31,10 +32,13 @@ export class TasksAPI {
 
   static async getTasks() {
     const querySnapshot = await getDocs(this.taskCollection);
-    return querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskMetaData[];
+    const list =  querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskMetaData[];
+    console.log(list);
+    // console.log(list.filter(x => x.category==="anything"));
+    return list;
   }
 
-  static async createTask(task: any) {
+  static async createTask(task: TaskSchema) {
     const docRef = await addDoc(this.taskCollection, task);
     console.log("Document written with ID: ", docRef.id);
   }

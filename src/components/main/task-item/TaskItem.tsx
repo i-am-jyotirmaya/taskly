@@ -43,7 +43,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
   return (
     <div className="rounded-2xl border p-4 bg-secondary/40 hover:cursor-pointer flex flex-col gap-2">
       <div className="flex justify-between items-center">
-        <h3>{data.name}</h3>
+        <h3>{data.name || (data as any).title}</h3>
         <Badge
           className="lowercase"
           variant={data.priority === "HIGH" ? "destructive" : data.priority === "NORMAL" ? "default" : "secondary"}
