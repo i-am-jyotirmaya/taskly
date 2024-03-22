@@ -20,7 +20,7 @@ export const Navbar = () => {
             <span className="font-bold tracking-widest text-xl">TODO</span>
           </div>
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <Button variant="default">
                 <PlusIcon className="mr-2 w-4 h-4" />
                 Create Task
