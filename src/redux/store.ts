@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import taskListChangeSelectorReducer from "@/components/main/task-list-mode-selector/taskListModeSelectorSlice";
 import taskListReducer from "@/components/main/task-list/taskListSlice";
-import createTaskReducer from "@/components/navbar/create-task/createTaskSlice"
+import createTaskReducer from "@/components/navbar/create-task/createTaskSlice";
+import taskItemReducer from "@/components/main/task-item/taskItemSlice";
 
 export const store = configureStore({
   reducer: {
     taskListChangeSelector: taskListChangeSelectorReducer,
     taskList: taskListReducer,
-    createTask:createTaskReducer,
-    
+    createTask: createTaskReducer,
+    taskItem: taskItemReducer,
   },
 });
 
