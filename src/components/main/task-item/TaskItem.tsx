@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TaskSchema } from "@/schemas/task-schema";
 import clsx from "clsx";
 import { CheckCheckIcon, LoaderIcon, Trash2Icon } from "lucide-react";
-import { deleteTask } from "./taskItemSlice";
+import { deleteTask, finishTask } from "./taskItemSlice";
 import { fetchAllTasks } from "../task-list/taskListSlice";
 
 type TaskItemProps = {
@@ -15,7 +15,7 @@ type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
-  const { deleting } = useAppSelector((state) => state.taskItem);
+  const { deletingIds, finishingIds } = useAppSelector((state) => state.taskItem);
   const dispatch = useAppDispatch();
 
   const getDateStatus = (createdDate: Date, updatedDate: Date) => {
@@ -48,9 +48,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
           className="transition-colors hover:bg-destructive/80"
           size="icon"
           onClick={() => handleDeleteTask(data.id)}
-          disabled={deleting}
+          disabled={deletingIds[data.id]}
         >
-          {deleting ? <LoaderIcon className="h-4 w-4 animate-spin mx-auto" /> : <Trash2Icon className="h-4 w-4" />}
+          {deletingIds[data.id] ? (
+            <LoaderIcon className="h-4 w-4 animate-spin mx-auto" />
+          ) : (
+            <Trash2Icon className="h-4 w-4" />
+          )}
         </Button>
       </div>
       <div className="flex gap-2">
@@ -81,11 +85,18 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
       </div>
       <div>
         <Button
-          disabled={data.completed}
+          disabled={data.completed || finishingIds[data.id]}
           className={clsx("w-full hover:bg-green-600", { "line-through": data.completed })}
           variant="secondary"
+          onClick={() => dispatch(finishTask(data))}
         >
-          <CheckCheckIcon className="mr-2 h-4 w-4" /> {data.completed ? "Done" : "Finish"}
+          {finishingIds[data.id] ? (
+            <LoaderIcon className="h-4 w-4 animate-spin mx-auto" />
+          ) : (
+            <>
+              <CheckCheckIcon className="mr-2 h-4 w-4" /> {data.completed ? "Done" : "Finish"}
+            </>
+          )}
         </Button>
       </div>
     </div>
