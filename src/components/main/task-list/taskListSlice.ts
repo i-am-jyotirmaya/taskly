@@ -1,7 +1,7 @@
 import { TasksAPI } from "@/api/tasks.api";
 import { TaskSchema } from "@/schemas/task-schema";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deleteTask } from "@/components/main/task-item/taskItemSlice";
+import { deleteTask, finishTask } from "@/components/main/task-item/taskItemSlice";
 
 export type TaskListState = {
   listLoading: boolean; // Whether the task list is loading or not
@@ -48,6 +48,10 @@ const taskListSlice = createSlice({
     });
     builder.addCase(deleteTask.pending, (state) => {
       state.error = "";
+    });
+    builder.addCase(finishTask.fulfilled, (state, action) => {
+      const index = state.taskList.findIndex((task) => task.id === action.payload.id);
+      state.taskList[index] = action.payload;
     });
   },
 });

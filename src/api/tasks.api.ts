@@ -6,7 +6,9 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { firestoreDb as db } from "@/firebase";
 import { TaskSchema, FirebaseTaskSchema } from "@/schemas/task-schema";
@@ -48,5 +50,19 @@ export class TasksAPI {
   static async deleteTask(id: string) {
     await deleteDoc(doc(db, this.TASKS_COLLECTION_NAME, id));
     return id;
+  }
+
+  static async finishTask(task: TaskSchema): Promise<TaskSchema> {
+    const completedDate = new Date().toISOString();
+    const taskRef = doc<TaskSchema, FirebaseTaskSchema>(this.taskCollection, task.id);
+    await updateDoc(taskRef, {
+      completedDate,
+      completed: true,
+      status: "done",
+      updatedDate: completedDate,
+    });
+    const updatedTask = await getDoc(taskRef);
+    if (updatedTask.exists()) return updatedTask.data();
+    throw Error("Finished Task not found");
   }
 }
