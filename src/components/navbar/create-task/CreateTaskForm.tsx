@@ -16,6 +16,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTask } from "./createTaskSlice";
+import { getDateFromISOString } from "@/lib/date-utils";
+import { fetchAllTasks } from "@/components/main/task-list/taskListSlice";
 // Assuming you have a Select component
 // import { DatePicker } from "@/components/ui/datepicker"; // Assuming you have a DatePicker component
 
@@ -26,6 +28,12 @@ export const CreateTaskForm = () => {
   const form = useForm<z.infer<typeof createTaskFormSchema>>({
     resolver: zodResolver(createTaskFormSchema),
     defaultValues: {
+      title: "",
+      category: "",
+      description: "",
+      dueDate: "", // Default value as per schema
+      reminder: "", // Default value as per schema
+      type: "",
       priority: "normal", // Default value as per schema
       tags: [], // Assuming empty array for optional array fields
       notes: [],
@@ -33,7 +41,7 @@ export const CreateTaskForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
+  async function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
     console.log(form);
     console.log(values);
     const now = new Date().toISOString();
@@ -46,7 +54,8 @@ export const CreateTaskForm = () => {
       user: "me",
       id: "",
     };
-    dispatch(createTask(newTask));
+    await dispatch(createTask(newTask));
+    dispatch(fetchAllTasks());
   }
   return (
     <ScrollArea className="h-[70vh]">
@@ -185,8 +194,10 @@ export const CreateTaskForm = () => {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
+                      selected={getDateFromISOString(field.value)}
+                      onSelect={(day: Date | undefined, selectedDay: Date, ...args) => {
+                        field.onChange(day?.toISOString(), selectedDay.toISOString(), args);
+                      }}
                       disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                       initialFocus
                     />

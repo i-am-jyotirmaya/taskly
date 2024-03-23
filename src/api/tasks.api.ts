@@ -4,6 +4,8 @@ import {
   SnapshotOptions,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
 } from "firebase/firestore";
 import { firestoreDb as db } from "@/firebase";
@@ -37,8 +39,14 @@ export class TasksAPI {
     return list;
   }
 
-  static async createTask(task: FirebaseTaskSchema) {
+  static async createTask(task: TaskSchema): Promise<string> {
     const docRef = await addDoc(this.taskCollection, task);
     console.log("Document written with ID: ", docRef.id);
+    return docRef.id;
+  }
+
+  static async deleteTask(id: string) {
+    await deleteDoc(doc(db, this.TASKS_COLLECTION_NAME, id));
+    return id;
   }
 }

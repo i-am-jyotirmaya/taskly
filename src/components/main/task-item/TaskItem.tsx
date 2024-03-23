@@ -3,15 +3,21 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/date-utils";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TaskSchema } from "@/schemas/task-schema";
 import clsx from "clsx";
-import { CheckCheckIcon, Trash2Icon } from "lucide-react";
+import { CheckCheckIcon, LoaderIcon, Trash2Icon } from "lucide-react";
+import { deleteTask } from "./taskItemSlice";
+import { fetchAllTasks } from "../task-list/taskListSlice";
 
 type TaskItemProps = {
   data: TaskSchema;
 };
 
 export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
+  const { deleting } = useAppSelector((state) => state.taskItem);
+  const dispatch = useAppDispatch();
+
   const getDateStatus = (createdDate: Date, updatedDate: Date) => {
     const dateTypeText = createdDate.getTime() === updatedDate.getTime() ? "Created" : "Updated";
     const date = createdDate === updatedDate ? createdDate : updatedDate;
@@ -20,6 +26,11 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
         {dateTypeText} {formatDate(date)}
       </span>
     );
+  };
+
+  const handleDeleteTask = async (id: string) => {
+    await dispatch(deleteTask(id));
+    dispatch(fetchAllTasks());
   };
   return (
     <div className="rounded-2xl border p-4 bg-secondary/40 hover:cursor-pointer flex flex-col gap-2">
@@ -36,11 +47,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({ data }) => {
           variant="ghost"
           className="transition-colors hover:bg-destructive/80"
           size="icon"
-          onClick={() => {
-            console.log(`Deleting ${(data as any).name}`);
-          }}
+          onClick={() => handleDeleteTask(data.id)}
+          disabled={deleting}
         >
-          <Trash2Icon className="h-4 w-4" />
+          {deleting ? <LoaderIcon className="h-4 w-4 animate-spin mx-auto" /> : <Trash2Icon className="h-4 w-4" />}
         </Button>
       </div>
       <div className="flex gap-2">

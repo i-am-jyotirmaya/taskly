@@ -32,3 +32,7 @@ export function formatDate(inputDate: Date): string {
     }
   }
 }
+
+export function getDateFromISOString(isoString?: string): Date | undefined {
+  return isoString ? new Date(isoString) : undefined;
+}

@@ -65,7 +65,7 @@ export const TaskList = () => {
 
   return (
     <>
-      {listLoading ? (
+      {listLoading && taskList.length === 0 ? (
         <div>
           <LoaderIcon className="h-10 w-10 animate-spin mx-auto" />
         </div>
