@@ -1,14 +1,7 @@
 import { ModeToggleV2 } from "@/components/mode-toggle-v2/mode-toggle-v2";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { CreateTaskForm } from "./create-task/CreateTaskForm";
 
 export const Navbar = () => {

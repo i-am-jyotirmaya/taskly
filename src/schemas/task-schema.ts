@@ -15,17 +15,7 @@ export const createTaskFormSchema = z.object({
 
 export type CreateTaskSchema = z.infer<typeof createTaskFormSchema>;
 
-export type FirebaseTaskSchema = {
-  category?: string;
-  tags: string[];
-  priority: "low" | "normal" | "high";
-  dueDate?: string;
-  reminder?: string;
-  description?: string;
-  notes: string[];
-  attachments: string[];
-  title?: string;
-  type?: string;
+type ExtraPropsForFirebase = {
   createdDate: string;
   updatedDate: string;
   completedDate?: string;
@@ -33,15 +23,11 @@ export type FirebaseTaskSchema = {
   status: "todo" | "in-progress" | "done";
   user: string;
 };
+
+export type FirebaseTaskSchema = z.infer<typeof createTaskFormSchema> & ExtraPropsForFirebase;
 
 type ExtraPropsForTask = {
   id: string;
-  createdDate: string;
-  updatedDate: string;
-  completedDate?: string;
-  completed: boolean;
-  status: "todo" | "in-progress" | "done";
-  user: string;
 };
 
-export type TaskSchema = z.infer<typeof createTaskFormSchema> & ExtraPropsForTask;
+export type TaskSchema = FirebaseTaskSchema & ExtraPropsForTask;

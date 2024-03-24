@@ -8,10 +8,13 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   updateDoc,
 } from "firebase/firestore";
 import { firestoreDb as db } from "@/firebase";
 import { TaskSchema, FirebaseTaskSchema } from "@/schemas/task-schema";
+import { Filter } from "@/filters";
 
 export class TasksAPI {
   private static TASKS_COLLECTION_NAME = "tasks";
@@ -38,6 +41,28 @@ export class TasksAPI {
     const list = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     console.log(list);
     // console.log(list.filter(x => x.category==="anything"));
+    return list;
+  }
+
+  static async getFilteredTasks(
+    filters: Filter[] = [],
+    sort: { field: string; direction: "asc" | "desc" } = { field: "createdDate", direction: "asc" }
+  ): Promise<TaskSchema[]> {
+    let q = query(this.taskCollection);
+
+    // Apply each filter
+    filters.forEach((filter) => {
+      q = filter.apply(q);
+    });
+
+    // Apply sorting
+    if (sort?.field) {
+      q = query(q, orderBy(sort.field, sort.direction));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const list = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskSchema[];
+    console.log(list);
     return list;
   }
 

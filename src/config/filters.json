@@ -1,0 +1,59 @@
+{
+  "filters": [
+    {
+      "id": "createdDate",
+      "label": "Created Date",
+      "type": "date",
+      "multiple": false,
+      "order": 1
+    },
+    {
+      "id": "updatedDate",
+      "label": "Updated Date",
+      "type": "date"
+    },
+    {
+      "id": "completed",
+      "label": "Completed",
+      "type": "boolean"
+    },
+    {
+      "id": "completedDate",
+      "label": "Completed Date",
+      "type": "date"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "select",
+      "options": [
+        { "value": "todo", "label": "To Do" },
+        { "value": "in-progress", "label": "In Progress" },
+        { "value": "done", "label": "Done" }
+      ]
+    },
+    {
+      "id": "hasAttachments",
+      "label": "Has Attachments",
+      "type": "boolean"
+    },
+    {
+      "id": "priority",
+      "label": "Priority",
+      "type": "select",
+      "options": [
+        { "value": "low", "label": "Low" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "high", "label": "High" }
+      ]
+    }
+  ],
+  "sortOptions": [
+    { "id": "createdDate", "label": "Created Date" },
+    { "id": "updatedDate", "label": "Updated Date" },
+    { "id": "priority", "label": "Priority" },
+    { "id": "dueDate", "label": "Due Date" },
+    { "id": "completedDate", "label": "Completed Date" },
+    { "id": "title", "label": "Title" }
+  ]
+}

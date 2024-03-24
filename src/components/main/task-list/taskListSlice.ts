@@ -16,13 +16,9 @@ const initialState: TaskListState = {
 };
 
 export const fetchAllTasks = createAsyncThunk("taskList/fetchAllTasks", async () => {
-  const dataFromFS = await TasksAPI.getTasks();
+  const dataFromFS = await TasksAPI.getFilteredTasks();
   return dataFromFS;
 });
-
-// export const deleteTask = createAsyncThunk("taskList/deleteTask", async (id: string) => {
-//   return await TasksAPI.deleteTask(id);
-// });
 
 const taskListSlice = createSlice({
   name: "taskList",
