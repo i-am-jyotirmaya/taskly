@@ -1,6 +1,6 @@
-// src/features/filters/filterSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserFilters, saveUserFilters } from "@/api/filters.api"; // Assume these functions interact with Firebase
+import { fetchUserFilters, saveUserFilters } from "@/api/filters.api";
+
 import { Filter } from "@/filters";
 
 export type FilterState = {
