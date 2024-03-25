@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FilterConfig } from "@/types/filter";
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { CalendarIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -12,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ZapIcon } from "lucide-react";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { BasicTooltip } from "../ui/custom/BasicTooltip";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type ExtraPropsForFilter = {
   className?: string;
@@ -23,25 +21,33 @@ type FilterProps = FilterConfig & ExtraPropsForFilter;
 
 export const Filter: React.FC<FilterProps> = ({ id, label, multiple, order, type, options, className }) => {
   const [date, setDate] = React.useState<Date>();
-  const getFilterControl = (type: "boolean" | "date" | "select" | "range" | "daterange") => {
+  const getFilterControl = () => {
     if (type === "select" && multiple) {
       console.log("Rendering Checkbox");
-      return options?.map((option) => (
-        <div className="inline-flex items-center gap-1" key={option.value}>
-          <Checkbox id={option.value} /> <label htmlFor={option.value}>{option.label}</label>
-        </div>
-      ));
+      return (
+        <ToggleGroup type="multiple" variant="outline">
+          {options?.map((option) => (
+            <ToggleGroupItem
+              className="hover:bg-accent/20 lg:hover:bg-accent"
+              value={option.value}
+              aria-label={`Toggle ${option.value}`}
+            >
+              {option.label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      );
     }
     if (type === "select" && !multiple)
       return (
         <Select>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Theme" />
+            <SelectValue placeholder={label} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            {options?.map((option) => (
+              <SelectItem value={option.value}>{option.label}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       );
@@ -73,14 +79,13 @@ export const Filter: React.FC<FilterProps> = ({ id, label, multiple, order, type
   };
 
   return (
-    <TooltipProvider>
-      <div className={cn("", className)}>
-        <div className="flex justify-between items-center">
-          <label>{label}</label>
-          <div className="flex gap-1">
-            <BasicTooltip tooltip="Add to quick fiters" side="left">
-              <Button variant="ghost" size="icon">
-                {/* <ZapIcon
+    <div className={cn("", className)}>
+      <div className="flex justify-between items-center">
+        <label>{label}</label>
+        <div className="flex gap-1">
+          <BasicTooltip tooltip="Add to quick fiters" side="left">
+            <Button variant="ghost" size="icon">
+              {/* <ZapIcon
                   fill={
                     false
                       ? `hsl(${getComputedStyle(document.documentElement).getPropertyValue("--foreground")})`
@@ -88,18 +93,17 @@ export const Filter: React.FC<FilterProps> = ({ id, label, multiple, order, type
                   }
                   className="w-4 h-4"
                 /> */}
-                <ZapIcon className="w-4 h-4" />
-              </Button>
-            </BasicTooltip>
-            <BasicTooltip tooltip="Remove filter" side="left">
-              <Button variant="ghost" size="icon">
-                <Cross2Icon className="w-4 h-4" />
-              </Button>
-            </BasicTooltip>
-          </div>
+              <ZapIcon className="w-4 h-4" />
+            </Button>
+          </BasicTooltip>
+          <BasicTooltip tooltip="Remove filter" side="left">
+            <Button variant="ghost" size="icon">
+              <Cross2Icon className="w-4 h-4" />
+            </Button>
+          </BasicTooltip>
         </div>
-        <div className="flex gap-4">{getFilterControl(type)}</div>
       </div>
-    </TooltipProvider>
+      <div className="flex gap-4">{getFilterControl()}</div>
+    </div>
   );
 };
