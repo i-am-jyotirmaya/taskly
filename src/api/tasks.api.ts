@@ -49,21 +49,28 @@ export class TasksAPI {
     sort: { field: string; direction: "asc" | "desc" } = { field: "createdDate", direction: "asc" }
   ): Promise<TaskSchema[]> {
     let q = query(this.taskCollection);
-
+    console.log("Created query, now will apply filters");
     // Apply each filter
     filters.forEach((filter) => {
       q = filter.apply(q);
     });
-
+    console.log("Applied filters, now will apply sorting");
     // Apply sorting
     if (sort?.field) {
       q = query(q, orderBy(sort.field, sort.direction));
     }
-
-    const querySnapshot = await getDocs(q);
-    const list = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskSchema[];
-    console.log(list);
-    return list;
+    console.log("Applied sorting, now will get data");
+    try {
+      const querySnapshot = await getDocs(q);
+      console.log("Got data, now will map");
+      const list = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as TaskSchema[];
+      console.log("Mapped, now will return", list);
+      console.log(list);
+      return list;
+    } catch (error) {
+      console.log(error);
+    }
+    return []; // Return empty list if error occurred. This should never happen.
   }
 
   static async createTask(task: TaskSchema): Promise<string> {

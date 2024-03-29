@@ -7,7 +7,7 @@ export class DateFilter<
   DbModelType extends DocumentData = FirebaseTaskSchema
 > extends Filter<AppModelType, DbModelType> {
   constructor(private field: string, private date: Date) {
-    super();
+    super(field);
   }
 
   apply(q: Query<AppModelType, DbModelType>): Query<AppModelType, DbModelType> {
@@ -27,10 +27,11 @@ export class BooleanFilter<
   DbModelType extends DocumentData = FirebaseTaskSchema
 > extends Filter<AppModelType, DbModelType> {
   constructor(private field: string, private value: boolean) {
-    super();
+    super(field);
   }
 
   apply(q: Query<AppModelType, DbModelType>): Query<AppModelType, DbModelType> {
+    console.log("Applying BooleanFilter");
     return query(q, where(this.field, "==", this.value));
   }
 }
@@ -40,11 +41,24 @@ export class SelectFilter<
   DbModelType extends DocumentData = FirebaseTaskSchema
 > extends Filter<AppModelType, DbModelType> {
   constructor(private field: string, private value: string) {
-    super();
+    super(field);
   }
 
   apply(q: Query<AppModelType, DbModelType>): Query<AppModelType, DbModelType> {
     return query(q, where(this.field, "==", this.value));
+  }
+}
+
+export class MultiSelectFilter<
+  AppModelType = TaskSchema,
+  DbModelType extends DocumentData = FirebaseTaskSchema
+> extends Filter<AppModelType, DbModelType> {
+  constructor(private field: string, private values: string[]) {
+    super(field);
+  }
+
+  apply(q: Query<AppModelType, DbModelType>): Query<AppModelType, DbModelType> {
+    return query(q, where(this.field, "in", this.values));
   }
 }
 
@@ -54,7 +68,7 @@ export class RangeFilter<
   DbModelType extends DocumentData = FirebaseTaskSchema
 > extends Filter<AppModelType, DbModelType> {
   constructor(private field: string, private from: T, private to: T) {
-    super();
+    super(field);
   }
 
   apply(q: Query<AppModelType, DbModelType>): Query<AppModelType, DbModelType> {

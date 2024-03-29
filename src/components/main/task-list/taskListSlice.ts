@@ -1,7 +1,9 @@
 import { TasksAPI } from "@/api/tasks.api";
 import { TaskSchema } from "@/schemas/task-schema";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { deleteTask, finishTask } from "@/components/main/task-item/taskItemSlice";
+import { FilterFactory } from "@/filters/filterFactory";
+import { createAppAsyncThunk } from "@/redux/hooks";
 
 export type TaskListState = {
   listLoading: boolean; // Whether the task list is loading or not
@@ -15,8 +17,12 @@ const initialState: TaskListState = {
   error: "",
 };
 
-export const fetchAllTasks = createAsyncThunk("taskList/fetchAllTasks", async () => {
-  const dataFromFS = await TasksAPI.getFilteredTasks();
+export const fetchAllTasks = createAppAsyncThunk("taskList/fetchAllTasks", async (_, thunkAPI) => {
+  const filters = thunkAPI.getState().filters.activeFilters;
+  console.log("fetchAllTasks with filters", filters);
+  const convertedFilters = filters.map((filter) => FilterFactory.buildFilter(filter)!);
+  console.log(`Got ${convertedFilters.length} filters converted`);
+  const dataFromFS = await TasksAPI.getFilteredTasks(convertedFilters);
   return dataFromFS;
 });
 

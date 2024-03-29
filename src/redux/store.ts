@@ -3,6 +3,7 @@ import taskListChangeSelectorReducer from "@/components/main/task-list-mode-sele
 import taskListReducer from "@/components/main/task-list/taskListSlice";
 import createTaskReducer from "@/components/navbar/create-task/createTaskSlice";
 import taskItemReducer from "@/components/main/task-item/taskItemSlice";
+import filtersReducer from "@/components/main/config-bar/filterSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     taskList: taskListReducer,
     createTask: createTaskReducer,
     taskItem: taskItemReducer,
+    filters: filtersReducer,
   },
 });
 

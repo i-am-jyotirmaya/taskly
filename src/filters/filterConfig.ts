@@ -1,34 +1,34 @@
 import { FilterConfig } from "@/types/filter";
 
 export const filterConfig: FilterConfig[] = [
-  {
-    id: "createdDate",
-    label: "Created Date",
-    type: "date",
-    multiple: false,
-    order: 1,
-  },
-  {
-    id: "updatedDate",
-    label: "Updated Date",
-    type: "date",
-    multiple: false,
-    order: 2,
-  },
-  {
-    id: "completed",
-    label: "Completed",
-    type: "boolean",
-    multiple: false,
-    order: 3,
-  },
-  {
-    id: "completedDate",
-    label: "Completed Date",
-    type: "date",
-    multiple: false,
-    order: 4,
-  },
+  // {
+  //   id: "createdDate",
+  //   label: "Created Date",
+  //   type: "date",
+  //   multiple: false,
+  //   order: 1,
+  // },
+  // {
+  //   id: "updatedDate",
+  //   label: "Updated Date",
+  //   type: "date",
+  //   multiple: false,
+  //   order: 2,
+  // },
+  // {
+  //   id: "completed",
+  //   label: "Completed",
+  //   type: "boolean",
+  //   multiple: false,
+  //   order: 3,
+  // },
+  // {
+  //   id: "completedDate",
+  //   label: "Completed Date",
+  //   type: "date",
+  //   multiple: false,
+  //   order: 4,
+  // },
   {
     id: "status",
     label: "Status",

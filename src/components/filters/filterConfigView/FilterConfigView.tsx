@@ -1,4 +1,4 @@
-import { SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ListFilterIcon, ZapIcon } from "lucide-react";
@@ -6,8 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Filter } from "@/components/filters/Filter";
 
 import { filterConfig } from "@/filters";
+import { useAppDispatch } from "@/redux/hooks";
+import { activateFilters, resetFilters } from "@/components/main/config-bar/filterSlice";
+import { fetchAllTasks } from "@/components/main/task-list/taskListSlice";
 
 export const FilterConfigView = () => {
+  const dispatch = useAppDispatch();
   const getFilters = () => {
     const filters = filterConfig.map((filter) => {
       return <Filter key={filter.id} {...filter} className="mb-4" />;
@@ -37,10 +41,7 @@ export const FilterConfigView = () => {
         <section className="mt-4">
           <div className="flex items-center justify-between">
             <h3 className="scroll-m-20 text-md font-semibold tracking-tight">Filters</h3>
-            <Button
-              onClick={() => console.log("Will clear filters in future. Now I am chilling in place.")}
-              variant="ghost"
-            >
+            <Button onClick={() => dispatch(resetFilters())} variant="ghost">
               Clear all filters
             </Button>
           </div>
@@ -48,6 +49,16 @@ export const FilterConfigView = () => {
           {getFilters()}
         </section>
       </ScrollArea>
+      <SheetFooter>
+        <Button
+          onClick={() => {
+            dispatch(activateFilters());
+            dispatch(fetchAllTasks());
+          }}
+        >
+          Apply filters
+        </Button>
+      </SheetFooter>
     </>
   );
 };

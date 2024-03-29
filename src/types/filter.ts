@@ -11,3 +11,11 @@ export type FilterConfig = {
   multiple: boolean;
   order: number;
 };
+
+export type FilterData = {
+  filterType: string;
+  filterField: string;
+  filterValue?: string;
+  filterBoolean?: boolean;
+  filterValues?: string[];
+};

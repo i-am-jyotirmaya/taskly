@@ -5,11 +5,18 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import { FilterConfigView } from "@/components/filters/filterConfigView/FilterConfigView";
+import { useAppDispatch } from "@/redux/hooks";
+import { removeTempChanges } from "./filterSlice";
 
 export const ConfigBar = () => {
+  const dispatch = useAppDispatch();
   return (
     <div className="flex justify-between">
-      <Sheet>
+      <Sheet
+        onOpenChange={(open) => {
+          if (!open) dispatch(removeTempChanges());
+        }}
+      >
         <SheetTrigger asChild>
           <Button variant="secondary" size="icon">
             <ListFilterIcon className="h-4 w-4" />
