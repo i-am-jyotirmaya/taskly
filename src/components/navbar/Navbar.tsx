@@ -8,7 +8,7 @@ import { ModeToggle } from "../mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useAppSelector } from "@/redux/hooks";
 import TasklyLogo from "@/assets/taskly-logo.svg?react";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { SideBar } from "@/features/sideBar/SideBar";
 
 export const Navbar = () => {

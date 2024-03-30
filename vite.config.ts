@@ -4,7 +4,7 @@ import svgr from "vite-plugin-svgr";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? "/taskly/" : "/",
+  base: process.env.NODE_ENV === "production" ? "/" : "/",
   plugins: [react(), svgr()],
   resolve: {
     alias: {
