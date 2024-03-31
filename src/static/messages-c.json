@@ -1,0 +1,60 @@
+{
+  "day": [
+    [
+      { "text": "Looks like you're all clear for today!", "emoticon": "🌟" },
+      { "text": "Why not take a moment to plan something exciting? Or just kick back and enjoy the peace." }
+    ],
+    [
+      { "text": "Today's agenda is looking as clear as the sky on a sunny day!", "emoticon": "☀️" },
+      { "text": "Got something in mind? Add a task and let's make today memorable." }
+    ],
+    [
+      { "text": "Zero tasks today! Looks like someone's on top of their game.", "emoticon": "🏆" },
+      { "text": "But there's always room for improvement—think about what you can achieve today!" }
+    ]
+  ],
+  "important": [
+    [
+      { "text": "No pressing tasks right now!", "emoticon": "🚀" },
+      { "text": "Time to explore new opportunities or maybe add that big goal you've been thinking about." }
+    ],
+    [
+      {
+        "text": "It's quiet... too quiet. Let's change that by adding some important tasks that will pave your path to success.",
+        "emoticon": "🌈"
+      }
+    ],
+    [
+      { "text": "All caught up with important stuff!", "emoticon": "🎉" },
+      { "text": "Why not add a task that's been on your mind? Big or small, every task counts." }
+    ]
+  ],
+  "star": [
+    [
+      { "text": "Your starred list is looking a bit lonely.", "emoticon": "🌌" },
+      { "text": "Shine a light on your priorities by starring tasks that are out of this world!" }
+    ],
+    [
+      { "text": "No stars in the sky tonight!", "emoticon": "🌠" },
+      { "text": "How about we add some stellar tasks to guide your way through the week?" }
+    ],
+    [
+      { "text": "Looks like your stars have aligned... because there are none!", "emoticon": "🤣" },
+      { "text": "Let's add some tasks and mark them as starred to highlight your path forward." }
+    ]
+  ],
+  "all": [
+    [
+      { "text": "An empty list, a world of possibilities.", "emoticon": "🌍" },
+      { "text": "What's the first task you're going to conquer? Let's start small and think big!" }
+    ],
+    [
+      { "text": "Looks like you've got a clean slate!", "emoticon": "🖌️" },
+      { "text": "Imagine the possibilities and start filling your canvas with tasks that inspire." }
+    ],
+    [
+      { "text": "Your task list is as empty as a concert hall during soundcheck.", "emoticon": "🎤" },
+      { "text": "Let's make some noise by adding tasks and bringing your plans to life!" }
+    ]
+  ]
+}

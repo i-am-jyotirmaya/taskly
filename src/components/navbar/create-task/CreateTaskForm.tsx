@@ -17,7 +17,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTask } from "./createTaskSlice";
 import { getDateFromISOString } from "@/lib/date-utils";
-import { fetchAllTasks } from "@/components/main/task-list/taskListSlice";
+import { fetchAllTasks } from "@/features/taskList/taskListSlice";
 // Assuming you have a Select component
 // import { DatePicker } from "@/components/ui/datepicker"; // Assuming you have a DatePicker component
 

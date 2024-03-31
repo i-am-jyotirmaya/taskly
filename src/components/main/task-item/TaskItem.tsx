@@ -8,7 +8,7 @@ import { TaskSchema } from "@/schemas/task-schema";
 import clsx from "clsx";
 import { CheckCheckIcon, LoaderIcon, Trash2Icon } from "lucide-react";
 import { deleteTask, finishTask } from "./taskItemSlice";
-import { fetchAllTasks } from "../task-list/taskListSlice";
+import { fetchAllTasks } from "../../../features/taskList/taskListSlice";
 
 type TaskItemProps = {
   data: TaskSchema;
